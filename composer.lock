@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0146583fdca1123faf36aebeeaebfe73",
+    "content-hash": "2e7f564bb8d0036892335f0a2579afe7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5784,6 +5784,46 @@
                 }
             ],
             "time": "2020-11-12T00:07:28+00:00"
+        },
+        {
+            "name": "wasico/sdk-php",
+            "version": "v0.6.05",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wasico/sdk-php.git",
+                "reference": "6db64b10ee26bd6d33cc709fd157bc7bfe952c75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wasico/sdk-php/zipball/6db64b10ee26bd6d33cc709fd157bc7bfe952c75",
+                "reference": "6db64b10ee26bd6d33cc709fd157bc7bfe952c75",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "sdk",
+            "autoload": {
+                "psr-4": {
+                    "Wasi\\SDK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jose Wilson Capera Castaño",
+                    "email": "josewilsoncc@gmail.com"
+                }
+            ],
+            "description": "Wasi SDK PHP",
+            "support": {
+                "issues": "https://github.com/wasico/sdk-php/issues",
+                "source": "https://github.com/wasico/sdk-php/tree/v0.6.05"
+            },
+            "time": "2020-02-06T14:24:35+00:00"
         },
         {
             "name": "webmozart/assert",

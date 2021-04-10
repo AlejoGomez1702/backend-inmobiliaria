@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PropertiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,16 +18,11 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 
-// Route::group([
-//     'prefix' => 'auth'
-// ], function () {
-//     Route::post('login', 'AuthController@login');
-//     Route::post('signup', 'AuthController@signUp');
+/*
+|--------------------------------------------------------------------------
+|                                 Properties
+|--------------------------------------------------------------------------
+*/
+Route::post('properties', [PropertiesController::class, 'getAllProperties']);
+Route::get('properties/{id}', [PropertiesController::class, 'getPropertyById']);
 
-//     Route::group([
-//       'middleware' => 'auth:api'
-//     ], function() {
-//         Route::get('logout', 'AuthController@logout');
-//         Route::get('user', 'AuthController@user');
-//     });
-// });
