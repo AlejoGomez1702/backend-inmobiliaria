@@ -68,6 +68,32 @@ class HttpRequestsProvider extends ServiceProvider {
         return Cache::get($url.http_build_query($options))['result'];
 	}
 
+	public function getStrict($url, $options = []) {
+		if (Cache::get($url.http_build_query($options)) == null) {
+            $client = new Client();
+
+            $body = $this->validateOptions($options);
+
+            $response = $client->request('GET',
+                $this->apiUrl . $url,
+                [
+                    'headers' => [
+                        'Content-Type' => 'application/json'
+                    ],
+                    'body' => (\GuzzleHttp\json_encode($body))
+                ]
+            );
+
+            Cache::put($url.http_build_query($options),
+                       array('params' => $options, 'result' => \GuzzleHttp\json_decode($response->getBody(), true)),
+                       $this->expiration);
+
+            return \GuzzleHttp\json_decode($response->getBody(), true);
+        }
+
+        return Cache::get($url.http_build_query($options))['result'];
+	}
+
 	public function post($url, $body) {
 		$client = new Client();
 

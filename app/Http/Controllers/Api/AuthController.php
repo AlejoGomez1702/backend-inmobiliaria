@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Providers\HttpRequestsProvider as ClientHttp;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -35,9 +36,13 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
 
+        $user_id = $this->getUserId($request->email);
+
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
+            'user_email' => $request->email,
+            'user_id'    => $user_id,
             'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString()
         ]);
     }
@@ -60,5 +65,33 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    /**
+     * Obtiene el Id del usuario legueado en WASI
+     */
+    public function getUserId($user_email)
+    {
+        $client = new ClientHttp('');
+        $users = (array) $client->get('user/all-users');
+
+        $user_selected;
+        $selected = false;
+        foreach ($users as $user) 
+        {
+            if($user['email'] == $user_email)
+            {
+                $user_selected = $user;
+                $selected = true;
+                break;
+            }
+        }
+
+        if($selected)
+        {
+            return $user_selected['id_user'];
+        }
+
+        return null;
     }
 }
