@@ -77,6 +77,8 @@ class TasksController extends Controller
         $for_sale = $property['for_sale']; //Esto creo que esta sacando un string pero deberia ser booleano
         $sale_value = ($for_sale === 'true');
 
+        $property_client = $client->get('client/get/' . $request->clients[0]);
+
 
         $user = $client->get('user/get/' . $request->id_user);
         $name = $user['first_name'];
