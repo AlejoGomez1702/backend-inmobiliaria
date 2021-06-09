@@ -83,26 +83,32 @@ class TasksController extends Controller
         $user = $client->get('user/get/' . $request->id_user);
         $name = $user['first_name'];
         $lastname = $user['last_name'];
-        $fechaVisita = $request->date;
+        $nameClient = $property_client['first_name'];
+        $lastnameClient = $property_client['last_name'];
+        $fecha = $request->date;
+        $fechaCarbon = new Carbon($fecha);
+        $fechaVisita = $fechaCarbon->format('d-m-Y');
+        $horaVisita = $fechaCarbon->format('H:i:s');
 
         return response()->json([
             'code' => $for_sale,
-            'status' => 'success'
-            // 'pruebas' => $filters
+            'status' => 'success',
+            'fecha' => $fechaVisita,
+            'hora' => $horaVisita
         ], 200);
 
         if ($response == 200) {
             //SEND EMAIL
             $details = [
-                'title' => 'Señor(a) ' . $name . ' ' . $lastname,
-                'body' => 'De acuerdo a nuestra conversación, le informamos que el día ' . $fechaVisita . ' visitaremos el inmueble en mención ' . ' con el cliente ' . $name . ' ' . $lastname . '\n' . '{ficha} el inmueble tiene adjunto una ficha, se debe enviar en ese correo como adjunto en pdf. \n Por favor tener en cuenta que cualquier acercamiento y negociación deberá hacerse con nuestro conocimiento y participación. En caso de cerrarse el negocio, la remuneración de la inmobiliaria por la administración del inmueble es el 10% más IVA del mismo porcentaje. \n Cordial saludo, \n
-                Nombre del agente y de la empresa',
+                'title' => 'Señor(a) ' . $nameClient . ' ' . $lastnameClient,
+                'body' => 'De acuerdo a nuestra conversación, le informamos que el día ' . $fechaVisita . ' a las ' . $horaVisita . ' visitaremos el inmueble en mención {ficha} ' . ' con el cliente ' . $nameClient . ' ' . $lastnameClient . '\n' . '{ficha} el inmueble tiene adjunto una ficha, se debe enviar en ese correo como adjunto en pdf. \n Por favor tener en cuenta que cualquier acercamiento y negociación deberá hacerse con nuestro conocimiento y participación. En caso de cerrarse el negocio, la remuneración de la inmobiliaria por la administración del inmueble es el 10% más IVA del mismo porcentaje. \n Cordial saludo, \n
+                Nombre del agente y de la empresa \n' . $name . ' ' . $lastname,
             ];
 
             $details2 = [
-                'title' => 'Señor(a) ' . $name . ' ' . $lastname,
-                'body' => 'De acuerdo a nuestra conversación, le informamos que el día ' . $fechaVisita . ' visitaremos el inmueble en mención ' . ' con el cliente ' . $name . ' ' . $lastname . '\n' . '{ficha} el inmueble tiene adjunto una ficha, se debe enviar en ese correo como adjunto en pdf. \n Por favor tener en cuenta que cualquier acercamiento y negociación deberá hacerse con nuestro conocimiento y participación. En caso de cerrarse el negocio, la remuneración de la inmobiliaria por la administración del inmueble es el 3% más IVA del mismo porcentaje. \n Cordial saludo, \n
-                Nombre del agente y de la empresa',
+                'title' => 'Señor(a) ' . $nameClient . ' ' . $lastnameClient,
+                'body' => 'De acuerdo a nuestra conversación, le informamos que el día ' . $fechaVisita . ' a las ' . $horaVisita . ' visitaremos el inmueble en mención {ficha}' . ' con el cliente ' . $nameClient . ' ' . $lastnameClient . '\n' . '{ficha} el inmueble tiene adjunto una ficha, se debe enviar en ese correo como adjunto en pdf. \n Por favor tener en cuenta que cualquier acercamiento y negociación deberá hacerse con nuestro conocimiento y participación. En caso de cerrarse el negocio, la remuneración de la inmobiliaria por la administración del inmueble es el 3% más IVA del mismo porcentaje. \n Cordial saludo, \n
+                Nombre del agente y de la empresa \n' . $name . ' ' . $lastname,
             ];
 
             if ($sale_value) {
