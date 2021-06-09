@@ -70,9 +70,24 @@ class TasksController extends Controller
         
         // crear una nueva tarea en la base de datos.
         $task_information = $request->all();
-        $task_information['id_user'] = $user_selected['id_user'];
+        $task_information['id_user'] = $request->id_user;
 
         $response = $client->post('management/add', $task_information);
+
+
+        $properties = $request->properties;
+        $property = $client->get('property/get/' . $properties[0]);
+        $for_sale = $property['for_sale']; //Esto creo que esta sacando un string pero deberia ser booleano
+
+
+        $user = $client->get('user/get/' . $request->id_user);
+
+        return response()->json([
+            'code' => $for_sale,
+            'status' => 'success'
+            // 'pruebas' => $filters
+        ], 200);
+
         if($response == 200)
         {
             //SEND EMAIL
